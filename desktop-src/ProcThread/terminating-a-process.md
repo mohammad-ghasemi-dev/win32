@@ -70,7 +70,7 @@ The execution of the [**ExitProcess**](/windows/win32/api/processthreadsapi/nf-p
 
 -   During process startup and DLL initialization routines, new threads can be created, but they do not begin execution until DLL initialization is finished for the process.
 -   Only one thread at a time can be in a DLL initialization or detach routine.
--   The [**ExitProcess**](/windows/win32/api/processthreadsapi/nf-processthreadsapi-exitprocess) function does not return until there are no threads are in their DLL initialization or detach routines.
+-   The [**ExitProcess**](/windows/win32/api/processthreadsapi/nf-processthreadsapi-exitprocess) function does not return until there are no threads in their DLL initialization or detach routines.
 
  
 
