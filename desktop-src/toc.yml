@@ -214,7 +214,7 @@
         - name: "Web Services on Devices"
           href: wsdapi/wsd-portal.md
         - name: "WIA"
-          href: ./wsdapi/wsd-portal.md
+          href: ./wia/-wia-startpage.md
       - name: "Windows Media Device Manager 11 SDK"
         href: ./wmdm/windows-media-device-manager-11-sdk.md
       - name: "Windows Portable Devices"
@@ -303,6 +303,10 @@
             href: ./dxcore/dxcore.md
           - name: "DirectWrite"
             href: ./directwrite/direct-write-portal.md
+          - name: "DirectStorage"
+            items: 
+            - name: "Overview"
+              href: ./dstorage/dstorage-portal.md
           - name: "DirectXMath"
             href: ./dxmath/directxmath-portal.md
           - name: "windowsnumerics.h APIs"
@@ -478,6 +482,8 @@
           href: ./secgloss/security-glossary.md
         - name: "TPM Base Services"
           href: ./tbs/tpm-base-services-portal.md
+        - name: "WebAuthN"
+          href: ./webauthn/-webauthn-portal.md
         - name: "Windows Biometric Framework"
           href: ./secbiomet/biometric-service-api-portal.md
       - name: "System Services"
@@ -498,6 +504,8 @@
           href: ./cmpapi/-compression-portal.md
         - name: "Dynamic-Link Libraries"
           href: ./dlls/dynamic-link-libraries.md
+        - name: "Hardware Requirement Evaluator"
+          href: ./hwreqchkapi/index.md
         - name: "Interprocess Communications"
           href: ./ipc/interprocess-communications.md
         - name: "Kernel Transaction Manager"

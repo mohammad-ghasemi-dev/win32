@@ -1351,7 +1351,7 @@ Storage Server Workgroup Edition (Server Core installation)
 
 </dt> <dd>
 
-Storage Server Workgroup Edition (Server Core installation)
+Storage Server Enterprise Edition (Server Core installation)
 
 </dd> <dt>
 
@@ -1509,6 +1509,16 @@ Windows Server Standard Edition (Server Core installation)
 Windows Enterprise for Virtual Desktops (Azure Virtual Desktop)
 
 </dd> </dl>
+
+</dd> <dt>
+
+<span id="PRODUCT_DATACENTER_SERVER_AZURE_EDITION"></span><span id="product_datacenter_server_azure_edition"></span>
+
+<span id="PRODUCT_DATACENTER_SERVER_AZURE_EDITION"></span><span id="product_datacenter_server_azure_edition"></span>**PRODUCT\_DATACENTER\_SERVER\_AZURE\_EDITION** (407)
+
+</dt> <dd>
+
+Windows Server Datacenter: Azure Edition
 
 </dd> <dt>
 
@@ -3022,7 +3032,7 @@ Data type: **Boolean**
 Access type: Read-only
 </dt> </dl>
 
-If **True**, the physical address extensions (PAE) are enabled by the operating system running on Intel processors. PAE allows applications to address more than 4 GB of physical memory. When PAE is enabled, the operating system uses three-level linear address translation rather than two-level. Providing more physical memory to an application reduces the need to swap memory to the page file and increases performance. To enable, PAE, use the "/PAE" switch in the Boot.ini file. For more information about the Physical Address Extension feature, see <https://Go.Microsoft.Com/FWLink/p/?LinkID=45912>.
+If **True**, the physical address extensions (PAE) are enabled by the operating system running on Intel processors. PAE allows applications to address more than 4 GB of physical memory. When PAE is enabled, the operating system uses three-level linear address translation rather than two-level. Providing more physical memory to an application reduces the need to swap memory to the page file and increases performance. To enable, PAE, use the "/PAE" switch in the Boot.ini file. For more information about the Physical Address Extension feature, see [Physical Address Extension](/windows/win32/memory/physical-address-extension).
 
 </dd> <dt>
 

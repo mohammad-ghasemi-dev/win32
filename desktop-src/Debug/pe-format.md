@@ -11,7 +11,7 @@ ms.custom: contperf-fy21q1
 
 This specification describes the structure of executable (image) files and object files under the Windows family of operating systems. These files are referred to as Portable Executable (PE) and Common Object File Format (COFF) files, respectively.
 
-> [!Note]  
+> [!Note]
 > This document is provided to aid in the development of tools and applications for Windows but is not guaranteed to be a complete specification in all respects. Microsoft reserves the right to alter this document without notice.
 
 This revision of the Microsoft Portable Executable and Common Object File Format Specification replaces all previous revisions of this specification.
@@ -122,11 +122,14 @@ The Machine field has one of the following values, which specify the CPU type. A
 | Constant                                    | Value              | Description                                                                             |
 |---------------------------------------------|--------------------|-----------------------------------------------------------------------------------------|
 | IMAGE\_FILE\_MACHINE\_UNKNOWN <br/>   | 0x0 <br/>    | The content of this field is assumed to be applicable to any machine type <br/> |
+| IMAGE\_FILE\_MACHINE\_ALPHA <br/>     | 0x184 <br/>  | Alpha AXP, 32-bit address space <br/>                                             |
+| IMAGE\_FILE\_MACHINE\_ALPHA64 <br/>   | 0x284 <br/>  | Alpha 64, 64-bit address space <br/>                                              |
 | IMAGE\_FILE\_MACHINE\_AM33 <br/>      | 0x1d3 <br/>  | Matsushita AM33 <br/>                                                             |
 | IMAGE\_FILE\_MACHINE\_AMD64 <br/>     | 0x8664 <br/> | x64 <br/>                                                                         |
 | IMAGE\_FILE\_MACHINE\_ARM <br/>       | 0x1c0 <br/>  | ARM little endian <br/>                                                           |
 | IMAGE\_FILE\_MACHINE\_ARM64 <br/>     | 0xaa64 <br/> | ARM64 little endian <br/>                                                         |
 | IMAGE\_FILE\_MACHINE\_ARMNT <br/>     | 0x1c4 <br/>  | ARM Thumb-2 little endian <br/>                                                   |
+| IMAGE\_FILE\_MACHINE\_AXP64 <br/>     | 0x284 <br/>  | AXP 64 (Same as Alpha 64) <br/>                                                   |
 | IMAGE\_FILE\_MACHINE\_EBC <br/>       | 0xebc <br/>  | EFI byte code <br/>                                                               |
 | IMAGE\_FILE\_MACHINE\_I386 <br/>      | 0x14c <br/>  | Intel 386 or later processors and compatible processors <br/>                     |
 | IMAGE\_FILE\_MACHINE\_IA64 <br/>      | 0x200 <br/>  | Intel Itanium processor family <br/>                                              |
@@ -417,13 +420,13 @@ IMAGE\_SCN\_LNK\_NRELOC\_OVFL indicates that the count of relocations for the se
 
 ### Grouped Sections (Object Only)
 
-The "$"? character (dollar sign) has a special interpretation in section names in object files.
+The "$" character (dollar sign) has a special interpretation in section names in object files.
 
-When determining the image section that will contain the contents of an object section, the linker discards the "$"? and all characters that follow it. Thus, an object section named .**text$X** actually contributes to the **.text** section in the image.
+When determining the image section that will contain the contents of an object section, the linker discards the "$" and all characters that follow it. Thus, an object section named .**text$X** actually contributes to the **.text** section in the image.
 
-However, the characters following the "$"? determine the ordering of the contributions to the image section. All contributions with the same object-section name are allocated contiguously in the image, and the blocks of contributions are sorted in lexical order by object-section name. Therefore, everything in object files with section name **.text$X** ends up together, after the **.text$W** contributions and before the **.text$Y** contributions.
+However, the characters following the "$" determine the ordering of the contributions to the image section. All contributions with the same object-section name are allocated contiguously in the image, and the blocks of contributions are sorted in lexical order by object-section name. Therefore, everything in object files with section name **.text$X** ends up together, after the **.text$W** contributions and before the **.text$Y** contributions.
 
-The section name in an image file never contains a "$"? character.
+The section name in an image file never contains a "$" character.
 
 ## Other Contents of the File
 
@@ -1428,6 +1431,8 @@ The following values are defined for the Type field of the debug directory entry
 | IMAGE\_DEBUG\_TYPE\_RESERVED10 <br/>      | 10 <br/> | Reserved. <br/>                                                                                                                                                                                            |
 | IMAGE\_DEBUG\_TYPE\_CLSID <br/>           | 11 <br/> | Reserved. <br/>                                                                                                                                                                                            |
 | IMAGE\_DEBUG\_TYPE\_REPRO <br/>           | 16 <br/> | PE determinism or reproducibility. <br/>                                                                                                                                                                   |
+| Undefined<br/>           | 17 <br/> | Debugging information is embedded in the PE file at location specified by PointerToRawData. <br/>                                                                                                                                                                   |
+| Undefined<br/>           | 19 <br/> | Stores crypto hash for the content of the symbol file used to build the PE/COFF file. <br/>                                                                                                                                                                   |
 | IMAGE\_DEBUG\_TYPE\_EX\_DLLCHARACTERISTICS | 20 | Extended DLL characteristics bits. |
 
 
@@ -1438,10 +1443,10 @@ If the Type field is set to IMAGE\_DEBUG\_TYPE\_FPO, the debug raw data is an ar
 
 
 ```C++
-#define FRAME_FPO   0               
+#define FRAME_FPO   0
 #define FRAME_TRAP  1
 #define FRAME_TSS   2
-               
+
 typedef struct _FPO_DATA {
     DWORD       ulOffStart;            // offset 1st byte of function code
     DWORD       cbProcSize;            // # bytes in function
@@ -1468,7 +1473,8 @@ The following values are defined for the extended DLL characteristics bits.
 
 | Constant | Value | Description |
 |-|-|-|
-| IMAGE\_DLLCHARACTERISTICS\_EX\_CET\_COMPAT | 0x0001 | Image is CET compatible. |
+| IMAGE\_DLLCHARACTERISTICS\_EX\_CET\_COMPAT | 0x0001 | Image is Control-flow Enforcement Technology (CET) Shadow Stack compatible.  |
+| IMAGE\_DLLCHARACTERISTICS\_EX\_FORWARD\_CFI\_COMPAT | 0x0040 | All branch targets in all image code sections are annotated with forward-edge control flow integrity guard instructions such as x86 CET-Indirect Branch Tracking (IBT) or ARM Branch Target Identification (BTI) instructions. This bit is not used by Windows. |
 
 #### .debug$F (Object Only)
 
@@ -1997,9 +2003,9 @@ Additionally, the Windows SDK winnt.h header defines this macro for the amount o
 
 Resources are indexed by a multiple-level binary-sorted tree structure. The general design can incorporate 2\*\*31 levels. By convention, however, Windows uses three levels:
 
-<dl> Type  
-Name  
-Language  
+<dl> Type
+Name
+Language
 </dl>
 
 A series of resource directory tables relates all of the levels in the following way: Each directory table is followed by a series of directory entries that give the name or identifier (ID) for that level (Type, Name, or Language level) and an address of either a data description or another directory table. If the address points to a data description, then the data is a leaf in the tree. If the address points to another directory table, then that table lists directory entries at the next level down.
@@ -2118,7 +2124,7 @@ The first 8 bytes of an archive consist of the file signature. The rest of the 
 -   The rest of the archive consists of standard (object-file) members. Each of these members contains the contents of one object file in its entirety.
 
 An archive member header precedes each member. The following list shows the general structure of an archive:
-    
+
 |Signature :"!&lt;arch&gt;\\n"|
 |-------|
 
@@ -2170,7 +2176,7 @@ Each member header starts on the first even address after the end of the previou
 | 34 <br/> | 6 <br/>  | Group ID <br/>      | An ASCII decimal representation of the group ID. This field does not contain a meaningful value on Windows platforms because Microsoft tools emit all blanks. <br/>                                   |
 | 40 <br/> | 8 <br/>  | Mode <br/>          | An ASCII octal representation of the member's file mode. This is the ST\_MODE value from the C run-time function \_wstat. <br/>                                                                       |
 | 48 <br/> | 10 <br/> | Size <br/>          | An ASCII decimal representation of the total size of the archive member, not including the size of the header. <br/>                                                                                  |
-| 58 <br/> | 2 <br/>  | End of Header <br/> | The two bytes in the C string "˜\\n" (0x60 0x0A). <br/>                                                                                                                                               |
+| 58 <br/> | 2 <br/>  | End of Header <br/> | The two bytes in the C string "`\\n" (0x60 0x0A). <br/>                                                                                                                                               |
 
 
 
@@ -2295,9 +2301,9 @@ The following values are defined for the Type field in the import header:
 
 | Constant                  | Value         | Description                                      |
 |---------------------------|---------------|--------------------------------------------------|
-| IMPORT\_CODE <br/>  | 0 <br/> | Executable code. <br/>                     |
-| IMPORT\_DATA <br/>  | 1 <br/> | Data. <br/>                                |
-| IMPORT\_CONST <br/> | 2 <br/> | Specified as CONST in the .def file. <br/> |
+| IMPORT\_OBJECT\_CODE <br/>  | 0 <br/> | Executable code. <br/>                     |
+| IMPORT\_OBJECT\_DATA <br/>  | 1 <br/> | Data. <br/>                                |
+| IMPORT\_OBJECT\_CONST <br/> | 2 <br/> | Specified as CONST in the .def file. <br/> |
 
 These values are used to determine which section contributions must be generated by the tool that uses the library if it must access that data.
 
@@ -2307,10 +2313,10 @@ The null-terminated import symbol name immediately follows its associated import
 
 | Constant | Value | Description |
 | - | - | - |
-| IMPORT\_ORDINAL | 0 | The import is by ordinal. This indicates that the value in the Ordinal/Hint field of the import header is the import's ordinal. If this constant is not specified, then the Ordinal/Hint field should always be interpreted as the import's hint. |
-| IMPORT\_NAME | 1 | The import name is identical to the public symbol name. |
-| IMPORT\_NAME\_NOPREFIX | 2 | The import name is the public symbol name, but skipping the leading ?, @, or optionally \_. |
-| IMPORT\_NAME\_UNDECORATE | 3 | The import name is the public symbol name, but skipping the leading ?, @, or optionally \_, and truncating at the first @. |
+| IMPORT\_OBJECT\_ORDINAL | 0 | The import is by ordinal. This indicates that the value in the Ordinal/Hint field of the import header is the import's ordinal. If this constant is not specified, then the Ordinal/Hint field should always be interpreted as the import's hint. |
+| IMPORT\_OBJECT\_NAME | 1 | The import name is identical to the public symbol name. |
+| IMPORT\_OBJECT\_NAME\_NOPREFIX | 2 | The import name is the public symbol name, but skipping the leading ?, @, or optionally \_. |
+| IMPORT\_OBJECT\_NAME\_UNDECORATE | 3 | The import name is the public symbol name, but skipping the leading ?, @, or optionally \_, and truncating at the first @. |
 
 ## Appendix A: Calculating Authenticode PE Image Hash
 

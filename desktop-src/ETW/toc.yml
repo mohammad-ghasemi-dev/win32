@@ -144,6 +144,8 @@
     - name: "Event Tracing Functions"
       href: /windows/desktop/api/_etw/#functions
       items:
+      - name: "EtwEventUnregister function (ntetw.h)"
+        href: nf-ntetw-etweventunregister.md
       - name: "Event Consumer Functions (evntcons.h)"
         href: /windows/win32/api/evntcons/#functions
       - name: "Event Provider Functions (evntprov.h)"
@@ -156,6 +158,8 @@
         href: /windows/win32/api/securitybaseapi/nf-securitybaseapi-cveeventwrite
       - name: "Trace Decoding Functions (tdh.h)"
         href: /windows/win32/api/tdh/#functions
+      - name: "TdhGetAllEventsInformation"
+        href: tdhgetalleventsinformation.md
     - name: "Event Tracing MOF Classes"
       href: event-tracing-mof-classes.md
       items:

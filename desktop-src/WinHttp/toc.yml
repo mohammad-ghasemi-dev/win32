@@ -44,6 +44,8 @@
         href: cookie-handling-in-winhttp.md
       - name: "Error Handling in WinHTTP"
         href: error-handling-in-winhttp.md
+      - name: "Concurrency in WinHTTP"
+        href: concurrency-in-winhttp.md
       - name: "WinHTTP AutoProxy Support"
         href: winhttp-autoproxy-support.md
         items: 
@@ -91,8 +93,8 @@
         href: winhttpcertcfg-exe--a-certificate-configuration-tool.md
       - name: "Netsh.exe and ProxyCfg.exe Proxy Configuration Tools"
         href: proxycfg-exe--a-proxy-configuration-tool.md
-      - name: "WinHttpTraceCfg.exe, a Trace Configuration Tool"
-        href: winhttptracecfg-exe--a-trace-configuration-tool.md
+      - name: "Collect WinHTTP traces"
+        href: collect-traces.md
   - name: "WinHTTP Reference"
     href: winhttp-reference.md
     items: 
@@ -294,7 +296,7 @@
         - name: "WINHTTP_HOST_CONNECTION_GROUP"
           href: /windows/win32/api/Winhttp/ns-winhttp-winhttp_host_connection_group
         - name: "WINHTTP_MATCH_CONNECTION_GUID"
-          href: /windows/win32/api/Winhttp/ns-winhttp-winhttp_match_connection_group
+          href: /windows/win32/api/winhttp/ns-winhttp-winhttp_match_connection_guid
         - name: "WINHTTP_PROXY_INFO"
           href: /windows/win32/api/winhttp/ns-winhttp-winhttp_proxy_info
         - name: "WINHTTP_PROXY_RESULT"
