@@ -53,7 +53,7 @@ int PASCAL WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
         wc.lpszClassName = "MainWndClass"; 
  
         if (!RegisterClass(&wc)) 
-            return FALSE; 
+            return EXIT_FAILURE; 
     } 
  
     hinst = hInstance;  // save instance handle 
@@ -69,7 +69,7 @@ int PASCAL WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
     // the application. 
  
     if (!hwndMain) 
-        return FALSE; 
+        return EXIT_FAILURE; 
  
     // Show the window and paint its contents. 
  
